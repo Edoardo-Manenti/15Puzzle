@@ -1,9 +1,8 @@
 package game
 
 import (
-	"fmt"
 	"15puzzle/pkg/board"
-	//"15puzzle/pkg/coord"
+	"15puzzle/pkg/coord"
 	"15puzzle/pkg/view"
 	"os"
 	"io"
@@ -23,16 +22,13 @@ func Play(width int) {
 		io.Writer
 	}{os.Stdin, os.Stdout}
 	terminal := term.NewTerminal(screen, "")
-	input := make([]byte, 1)
 	for {
 		view.PrintBoard(b, terminal)
-		fmt.Print("Select a move: (0:UP 1:RIGHT 2:DOWN 3:LEFT)->")
-		_, err := os.Stdin.Read(input)
-		if err != nil {
-			fmt.Println(err)
-			return
+		var kp = view.ListenForInput(terminal)
+		if kp == 4 {
+			break
 		}
-		fmt.Println(input)
+		view.ClearTerminal(terminal)
 		//dir, _ := coord.GetDirection(in)
 		//fmt.Printf("You selected the move %v\n", dir)
 		//var err = b.Move(dir)
